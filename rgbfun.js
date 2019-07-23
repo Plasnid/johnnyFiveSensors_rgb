@@ -1,44 +1,44 @@
-/*
-http://johnny-five.io/examples/led-rgb/
-
-challenge:  make the bulb flash alternately green and blue for 2 seconds at a time
-
-note:  Please be aware the red channel in the bulb does not function
-*/
+/**
+ * 
+ * for the sketch for wiring, visit 
+ * 
+ * http://johnny-five.io/examples/led-rgb-anode/
+ * 
+ * challenge:  make the light switch colour between red, green and blue every two seconds
+ */
 
 var five = require("johnny-five");
+var board = new five.Board();
+var anode;
 
+function reddy(){
+  setTimeout(greeny, 2000);
+}
+function greeny(){
+  setTimeout(bluey,2000);
+}
+function bluey(){
+  setTimeout(reddy, 2000);
+}
 
-five.Board().on("ready", function() {
-
-  // Initialize the RGB LED
-  var led = new five.Led.RGB({
+board.on("ready", function() {
+  anode = new five.Led.RGB({
     pins: {
       red: 6,
       green: 5,
       blue: 3
-    }
+    },
+    isAnode: true
   });
-
-  // RGB LED alternate constructor
-  // This will normalize an array of pins in [r, g, b]
-  // order to an object (like above) that's shaped like:
-  // {
-  //   red: r,
-  //   green: g,
-  //   blue: b
-  // }
-  //var led = new five.Led.RGB([3,5,6]);
 
   // Add led to REPL (optional)
   this.repl.inject({
-    led: led
+    anode: anode
   });
 
   // Turn it on and set the initial color
-  led.on();
-  led.color("#000000");
-
-  led.blink(1000);
+  anode.on();
+  reddy();
+  //anode.blink(1000);
 
 });
